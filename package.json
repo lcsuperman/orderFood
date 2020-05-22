@@ -12,9 +12,16 @@
   },
   "dependencies": {
     "better-scroll": "^1.15.2",
+    "cube-ui": "^1.12.39",
     "lib-flexible": "^0.3.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
+  },
+  "transformModules": {
+    "cube-ui": {
+      "transform": "cube-ui/src/modules/${member}",
+      "kebabCase": true
+    }
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -56,6 +63,8 @@
     "shelljs": "^0.7.6",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
+    "webpack-post-compile-plugin": "^1.0.0",
+    "webpack-transform-modules-plugin": "^0.4.3",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",

@@ -2,7 +2,7 @@
    <div class="header">
      <div class="content-wrapper">
         <div class="avatar">
-          <img src="../../../static/image/timg.jpg" alt="">
+          <img src="../../../static/image/ting1.jpg" alt="">
         </div>
         <ul class="shopInfo">
           <!--店铺名称-->
@@ -17,10 +17,6 @@
        <div class="bulletin-title">公告</div>
        <div class="bulletin-info">欢迎光临！今天奶茶满30元减5元，快来组团购买吧！</div>
      </div>
-     <!--背景-->
-     <div class="background">
-       <img src="../../../static/image/timg1.jpg" alt="">
-     </div>
    </div>
 </template>
 <script>
@@ -29,19 +25,28 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .header
     width 100%
-    background: rgba(7,17,27,.5)
+    height 250px
     color #fff;
+    background: rgba(7,17,27,.5);
     overflow hidden
-    position relative
+    background-image url("../../../static/image/beijing1.jpg")
+    background-repeat no-repeat
+    background-size 100% 140%
+    position fixed
+    left 0
+    top 0
+    z-index 5
     .content-wrapper
       -webkit-box-align center
       -moz-box-align:center;
-      padding 40px 60px 20px 60px
-      position: relative;
+      box-sizing border-box
+      padding 40px 60px 20px
       display flex
+      width 100%
+      height  194px
       .avatar
          width 130px
-         height 130px
+         width 130px
          margin-right 30px
          img
            width 100%
@@ -77,15 +82,4 @@
          text-overflow ellipsis
          overflow hidden
          word-break break-all
-    .background
-      filter blur(10px)
-      height 100%
-      left 0
-      position absolute
-      top 0
-      width 100%
-      z-index -1
-      img
-        width 100%
-        height 100%
 </style>
