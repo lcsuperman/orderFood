@@ -38,53 +38,30 @@
                </div>
              </div>
           </div>
-         <!--商品列表-->
-         <cube-popup type="my-popup" position="bottom" :mask-closable="true" ref="myPopup">
-             <div style="background-color: #fff">
-               <div class="popup-title">
-                 <span style="color:#333;">购物车</span>
-                 <span style="color:#00a0dc" @click="showBtn">清空</span>
-               </div>
-               <div class="popup-content" style="width: 100%;max-height: 350px;">
-                 <ul class="popup-list">
-                   <li class="list" style="height: 50px">
-                     <span class-="list-name">爱心奶茶</span>
-                     <div class="list-info">
-                       <span class="list-price">￥10</span>
-                       <div class="list-addGood">
-                         <i class="iconfont icon-jianqu"></i>
-                         <span class="list-addNum">13</span>
-                         <i class="iconfont icon-tianjia"></i>
-                       </div>
-                     </div>
-                   </li>
-                   <li class="list" style="height: 50px">
-                     <span class-="list-name">爱心奶茶</span>
-                     <div class="list-info">
-                       <span class="list-price">￥10</span>
-                       <div class="list-addGood">
-                         <i class="iconfont icon-jianqu"></i>
-                         <span class="list-addNum">13</span>
-                         <i class="iconfont icon-tianjia"></i>
-                       </div>
-                     </div>
-                   </li>
-                   <li class="list" style="height: 50px">
-                     <span class-="list-name">爱心奶茶</span>
-                     <div class="list-info">
-                       <span class="list-price">￥10</span>
-                       <div class="list-addGood">
-                         <i class="iconfont icon-jianqu"></i>
-                         <span class="list-addNum">13</span>
-                         <i class="iconfont icon-tianjia"></i>
-                       </div>
-                     </div>
-                   </li>
-                 </ul>
-               </div>
+         <!--购物车列表-->
+         <transition name="move">
+           <div class="shopcart-list" v-show="listShow">
+             <div class="list-header">
+               <h1 class="title">购物车</h1>
+               <span class="empty" @click="clearCart">清空</span>
              </div>
-         </cube-popup>
+             <div class="list-content">
+               <ul class="foodlist">
+                 <li class="food" v-for="(food, index) in cartFoods" :key="index">
+                   <span class="name">{{food.name}}</span>
+                   <div class="price"><span>￥{{food.price}}</span></div>
+                   <div class="cartcontrol-wrapper">
+                     <AddGoods />
+                   </div>
+                 </li>
+               </ul>
+             </div>
+           </div>
+         </transition>
+
        </div>
+       <!--蒙版-->
+       <div class="list-mask" v-show="listShow" @click="toggleShow"></div>
        <!--底部购物车-->
        <div class="goodCar">
           <div class="car">
@@ -114,7 +91,7 @@
        return{
          scrollY: 0, // 右侧滑动的Y轴坐标 (滑动过程时实时变化)
          tops: [], // 所有右侧分类li的top组成的数组  (列表第一次显示后就不再变化)
-         isShow:false,
+         listShow:false,
          num:6,
          price:213,
          goodsInfo:[
@@ -292,7 +269,49 @@
                  },
                ]
              },
-           ]
+           ],
+         cartFoods:[
+           {
+             name:'海之言',
+             price:'4'
+           },
+           {
+             name:'海之言',
+             price:'4'
+           },
+           {
+             name:'海之言',
+             price:'4'
+           },
+           {
+             name:'海之言',
+             price:'4'
+           },
+           {
+             name:'海之言',
+             price:'4'
+           },
+           {
+             name:'海之言',
+             price:'4'
+           },
+           {
+             name:'海之言',
+             price:'4'
+           },
+           {
+             name:'海之言',
+             price:'4'
+           },
+           {
+             name:'海之言',
+             price:'4'
+           },
+           {
+             name:'海之言',
+             price:'4'
+           },
+         ]
        }
     },
     components:{
@@ -305,8 +324,6 @@
       currentIndex() {// 初始和相关数据发生了变化
         // 得到条件数据
         const {scrollY, tops} = this
-     /*   console.log('111111')
-        console.log(scrollY, tops)*/
         // 根据条件计算产生一个结果
         const index = tops.findIndex((top, index) => {
           // scrollY>=当前top && scrollY<下一个top
@@ -322,6 +339,9 @@
       this._initTops()
     },
     methods:{
+      toggleShow(){
+
+      },
       // 初始化滚动
       _initScroll() {
         this.foodsScroll = new BScroll('.foods', {
@@ -331,21 +351,16 @@
         new BScroll('.classification', {
           click: true
         })
-        new BScroll('.popup-content', {
+        new BScroll('.list-content', {
           click: true
         })
         // 给右侧列表绑定scroll监听
         this.foodsScroll.on('scroll', ({x, y}) => {
-         /* console.log(x, y)*/
           this.scrollY = Math.abs(y)
-        /*  console.log(this.scrollY)*/
         })
         // 给右侧列表绑定scroll结束的监听
         this.foodsScroll.on('scrollEnd', ({x, y}) => {
-         /* console.log('scrollEnd', x, y)*/
           this.scrollY = Math.abs(y)
-         /* console.log('结束')*/
-          /*console.log(this.scrollY)*/
         })
 
       },
@@ -362,16 +377,11 @@
           top += li.clientHeight
           tops.push(top)
         })
-
         // 3. 更新数据
         this.tops = tops
-      /*  console.log(tops)*/
       },
       clickMenuItem(index) {
-       /* console.log(index)
-        console.log(this.currentIndex)*/
         // 使用右侧列表滑动到对应的位置
-
         // 得到目标位置的scrollY
         const scrollY = this.tops[index]
         // 立即更新scrollY(让点击的分类项成为当前分类)
@@ -379,20 +389,11 @@
         // 平滑滑动右侧列表
         this.foodsScroll.scrollTo(0, -scrollY, 300)
       },
-
-      showPopup() {//显示商品列表
-        const component = this.$refs.myPopup
-        if(this.isShow != true){
-          component.show()
-          this.isShow = true
-        }else{
-          component.hide()
-          this.isShow = false
-        }
-
+      showPopup(){
+        this.listShow = !this.listShow
+        console.log( this.listShow)
       },
-
-      showBtn() {//清空购物车
+      clearCart() {//清空购物车
         this.$createDialog({
           type: 'confirm',
           content: '清空购物车？',
@@ -426,18 +427,21 @@
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
+  @import'../../../static/stylus/mixins.styl'
   .orderFood
      width 100%
      height 100%
      background-color #fff
      position relative
      .orderFood-container
-       height 100%
-       .orderFood-content
+        height 100%
+        position relative
+        .orderFood-content
          background-color #fff
          display flex
+         height 100%
          .classification
-           height 1084px
+           height 100%
            background-color #F3F5F7
            .classList
               padding-bottom 200px
@@ -452,14 +456,13 @@
                 text-align center
                 &.current
                   position relative
-                  z-index 10
+                  z-index 5
                   margin-top -1px
                   background #fff
-                  color $green
                   font-weight 700
          .foods
             width 100%
-            height 1084px
+            height 100%
             .foods-container
               padding-bottom 450px
              .foos-content
@@ -520,7 +523,78 @@
                              padding 0 10px
 
 
-     .goodCar
+        .shopcart-list
+          position absolute
+          left 0
+          bottom -220px
+          z-index 10
+          width 100%
+          background-color #fff
+          transform translateY(-100%)
+          &.move-enter-active, &.move-leave-active
+           transition transform .3s
+          &.move-enter, &.move-leave-to
+            transform translateY(0)
+          .list-header
+            height 60px
+            line-height 60px
+            padding 0 20px
+            background #f3f5f7
+            border-bottom 1px solid rgba(7, 17, 27, 0.1)
+            .title
+              float left
+              font-size 25px
+              color rgb(7, 17, 27)
+            .empty
+              float right
+              font-size 25px
+              color rgb(0, 160, 220)
+          .list-content
+            padding 0 40px
+            max-height 350px
+            background #fff
+            overflow hidden
+            .foodlist
+              .food
+                position relative
+                padding 20px 0
+                box-sizing border-box
+                bottom-border-1px(rgba(7, 17, 27, 0.1))
+                .name
+                  line-height 28px
+                  font-size 28px
+                  color rgb(7, 17, 27)
+                .price
+                  position absolute
+                  right 150px
+                  bottom 16px
+                  line-height 28px
+                  font-size 28px
+                  font-weight 700
+                  color rgb(240, 20, 20)
+                .cartcontrol-wrapper
+                  position absolute
+                  right 0
+                  bottom 6px
+
+
+
+     .list-mask
+      position absolute
+      top 0
+      left 0
+      width 100%
+      height 100%
+      z-index 8
+      backdrop-filter blur(10px)
+      opacity 1
+      background rgba(7, 17, 27, 0.6)
+      &.fade-enter-active, &.fade-leave-active
+        transition all 0.5s
+      &.fade-enter, &.fade-leave-to
+        opacity 0
+        background rgba(7, 17, 27, 0)
+  .goodCar
        display flex
        height 90px
        width 100%
@@ -593,59 +667,8 @@
          color #fff
          line-height 90px
          text-align center
-
-     .cube-popup
-       position absolute
-       z-index 10 !important
-       .popup-title
-         width 100%
-         height 50px
-         box-sizing border-box
-         padding: 0 40px;
-         background #f3f5f7
-         line-height 50px
-         font-size: 25px
-         display flex
-         justify-content space-between
-       .cube-popup-content
-
-         .popup-content
-            padding: 0 40px;
-            box-sizing border-box
-            color #333
-            overflow hidden
-           .popup-list
-             width 100%
-             padding-bottom 200px
-             .list
-               display flex
-               justify-content space-between
-               align-items center
-               .list-info
-                 display flex
-                 align-items center
-                 .list-price
-                    font-size 25px
-                    color #f01414
-                    margin-right 20px
-                 .list-addGood
-                    display flex
-                    align-items center
-                    .iconfont
-                      font-size 35px
-                      color #00a0dc
-                      padding 0 10px
-                    .list-addNum
-                      font-size 25px
-                      text-align center
-
-
-
-
-
-
-    .cube-popup-container .cube-dialog-content
-      margin 30px 0
-    .cube-popup-container .cube-dialog-main
-      width 400px
+  .cube-popup-container .cube-dialog-content
+    margin 30px 0
+  .cube-popup-container .cube-dialog-main
+    width 500px
 </style>

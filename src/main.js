@@ -7,13 +7,11 @@ import 'lib-flexible'
 import store from './store'
 import {
   Style,
-  Popup,
   Dialog,
   Toast
 } from 'cube-ui'
 
 Vue.config.productionTip = false
-Vue.use(Popup)
 Vue.use(Dialog)
 Vue.use(Toast)
 

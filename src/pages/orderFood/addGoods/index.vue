@@ -12,7 +12,7 @@
   export default{
     data(){
        return{
-         purchaseNum:0,
+         purchaseNum:1,
        }
     },
 

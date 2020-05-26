@@ -46,7 +46,7 @@
       height  194px
       .avatar
          width 130px
-         width 130px
+         height  130px
          margin-right 30px
          img
            width 100%
