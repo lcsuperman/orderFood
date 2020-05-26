@@ -32,7 +32,7 @@
     background-image url("../../../static/image/beijing1.jpg")
     background-repeat no-repeat
     background-size 100% 140%
-    position fixed
+    position relative
     left 0
     top 0
     z-index 5

@@ -42,7 +42,7 @@
       justify-content space-around
       align-items center
       background-color white
-      z-index 5
+      z-index 16
       .guide_item
         display flex
         flex-direction column
