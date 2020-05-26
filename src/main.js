@@ -8,12 +8,14 @@ import store from './store'
 import {
   Style,
   Dialog,
+  Button,
   Toast
 } from 'cube-ui'
 
 Vue.config.productionTip = false
 Vue.use(Dialog)
 Vue.use(Toast)
+Vue.use(Button)
 
 /* eslint-disable no-new */
 new Vue({

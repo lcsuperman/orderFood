@@ -250,22 +250,10 @@
                    image:'./static/image/food3.jpg',
                  },
                  {
-                   name:'珍珠奶茶',
-                   sale:'300',
-                   price:'10',
-                   image:'./static/image/food2.jpg',
-                 },
-                 {
                    name:'可口奶茶',
                    sale:'200',
                    price:'10',
                    image:'./static/image/food1.jpg',
-                 },
-                 {
-                   name:'想你奶茶',
-                   sale:'200',
-                   price:'10',
-                   image:'./static/image/food2.jpg',
                  },
                ]
              },
@@ -283,22 +271,7 @@
              name:'海之言',
              price:'4'
            },
-           {
-             name:'海之言',
-             price:'4'
-           },
-           {
-             name:'海之言',
-             price:'4'
-           },
-           {
-             name:'海之言',
-             price:'4'
-           },
-           {
-             name:'海之言',
-             price:'4'
-           },
+
            {
              name:'海之言',
              price:'4'
@@ -391,7 +364,6 @@
       },
       showPopup(){
         this.listShow = !this.listShow
-        console.log( this.listShow)
       },
       clearCart() {//清空购物车
         this.$createDialog({
@@ -464,7 +436,7 @@
             width 100%
             height 100%
             .foods-container
-              padding-bottom 450px
+              padding-bottom 1130px
              .foos-content
                .foods-class
                  height 48px
