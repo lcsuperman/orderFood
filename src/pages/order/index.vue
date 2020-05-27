@@ -1,9 +1,7 @@
 <template>
   <div class="order">
     <!--头部信息-->
-    <div class="order-title">
-      <span>取餐信息</span>
-    </div>
+    <HeaderTitle title="我的订单"></HeaderTitle>
     <div class="order-wrap">
       <!--有订单页面-->
       <div v-if="isOrder" class="order-content">
@@ -54,7 +52,6 @@
           </div>
         </div>
       </div>
-
       <!--无订单页面-->
       <div v-else class="noOrder">
         <div class="img-container">
@@ -72,11 +69,12 @@
 </template>
 <script>
   import BScroll from 'better-scroll'
+  import HeaderTitle from '../../components/headerTitle'
    export default{
 
      data(){
            return{
-             isOrder:false,
+             isOrder:true,
              orderInfo:[
                {
                  orderCode:'11113',
@@ -92,12 +90,36 @@
                  ],
                  orderTime:'2020年5月6日 16:37:06',
                  phone:'13765438987',
-                 total:'29',
+                 total:'20',
                  remark:'很高心在茫茫人海与您相遇，期待下次的邂逅！',
                  mem:'请到前台出示取餐号领取订单，祝您用餐快乐！'
                },
                {
                  orderCode:'11112',
+                 orderStatus:'已取餐',
+                 goods:[
+                   {
+                     name:'一杯奶茶',
+                     num:'2',
+                     price:'10',
+                     img:'./static/image/food1.jpg',
+                   },
+                   {
+                     name:'mini奶茶',
+                     num:'1',
+                     price:'9',
+                     img:'./static/image/food2.jpg',
+                   },
+
+                 ],
+                 orderTime:'2020年5月6日 16:37:06',
+                 phone:'13765438987',
+                 total:'29',
+                 remark:'很高心在茫茫人海与您相遇，期待下次的邂逅！',
+                 mem:'请到前台出示取餐号领取订单，祝您用餐快乐！'
+               },
+               {
+                 orderCode:'11114',
                  orderStatus:'已取餐',
                  goods:[
                    {
@@ -128,6 +150,9 @@
          click: true
        })
      },
+     components:{
+       HeaderTitle
+     }
    }
 
 </script>
@@ -138,42 +163,35 @@
      height 100%
      position relative
      background-color #f3f5f7
-     .order-title
-       height 90px
-       text-align center
-       font-size 30px
-       line-height 90px
-       background rgba(240,240,240,.9 )
-       box-shadow 0px 2px 2px 0px rgba(228,228,228,0.36)
-      .order-wrap
-        height 100%
-        overflow hidden
-       .noOrder
-         display flex
-         position absolute
-         left 50%
-         top 53%
-         transform  translate(-50% , -50%)
-         flex-direction column
-         align-items center
-         width 100%
-         height 60%
-         margin 0 auto
-         justify-content space-between
-         .img-container
-           width 500px
-           height 400px
-           img
-             width 100%
-             height 100%
+    .order-wrap
+      height 100%
+      overflow hidden
+      .noOrder
+       display flex
+       position absolute
+       left 50%
+       top 53%
+       transform  translate(-50% , -50%)
+       flex-direction column
+       align-items center
+       width 100%
+       height 60%
+       margin 0 auto
+       justify-content space-between
+       .img-container
+         width 500px
+         height 400px
+         img
+           width 100%
+           height 100%
 
-         .words
-           font-size 28px
-           margin-top  20%
-           color #999
-         .btn
-           width 450px
-       .order-content
+       .words
+         font-size 28px
+         margin-top  20%
+         color #999
+       .btn
+         width 450px
+      .order-content
          width 100%
          padding-bottom 200px
          .order-container
@@ -182,7 +200,7 @@
            background-color #fff
            box-shadow 0px 5px 9px 0px rgba(228,228,228,0.36)
            border-radius 5px
-           margin 20px 0
+           margin-bottom 30px
            .orderCode
              display flex
              justify-content space-between
