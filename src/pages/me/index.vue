@@ -79,7 +79,7 @@
   }
 
 </script>
-<style lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus" scoped>
   .personal
     height 100%
     .person-title

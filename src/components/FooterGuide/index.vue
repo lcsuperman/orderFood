@@ -29,7 +29,7 @@
     }
   }
 </script>
-<style  lang="stylus" rel="stylesheet/stylus">
+<style  lang="stylus" rel="stylesheet/stylus" scoped>
   @import "../../../static/stylus/mixins.styl"
     .foot-guide
       border-top 1px solid #eee

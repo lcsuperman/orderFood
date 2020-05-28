@@ -22,7 +22,7 @@
 <script>
 
 </script>
-<style lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus" scoped>
   .header
     width 100%
     height 250px

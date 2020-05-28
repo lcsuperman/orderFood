@@ -9,13 +9,29 @@ import {
   Style,
   Dialog,
   Button,
-  Toast
+  Swipe,
+  Scroll,
+  Select,
+  Toast,
+  Picker,
+  ActionSheet,
+  Form,
+  TabBar,
+  TabPanels,
 } from 'cube-ui'
 
 Vue.config.productionTip = false
 Vue.use(Dialog)
 Vue.use(Toast)
+Vue.use(Swipe)
 Vue.use(Button)
+Vue.use(Picker)
+Vue.use(Select)
+Vue.use(Scroll)
+Vue.use( Form)
+Vue.use( TabBar)
+Vue.use( TabPanels)
+Vue.use(ActionSheet)
 
 /* eslint-disable no-new */
 new Vue({

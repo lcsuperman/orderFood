@@ -156,7 +156,7 @@
    }
 
 </script>
-<style lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus" scoped>
   @import'../../../static/stylus/mixins.styl'
    .order
      width 100%
@@ -206,7 +206,6 @@
              justify-content space-between
              align-items center
              height 50px
-
              .code
                font-size 30px
                font-weight 700

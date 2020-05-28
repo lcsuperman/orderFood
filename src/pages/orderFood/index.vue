@@ -1,5 +1,5 @@
 <template>
-     <div class="orderFood">
+     <div class="orderFood" >
        <div class="orderFood-container">
          <!--头部商家信息-->
          <Header></Header>
@@ -398,7 +398,7 @@
     }
   }
 </script>
-<style lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus" scoped>
   @import'../../../static/stylus/mixins.styl'
   .orderFood
      width 100%
@@ -639,8 +639,4 @@
          color #fff
          line-height 90px
          text-align center
-  .cube-popup-container .cube-dialog-content
-    margin 30px 0
-  .cube-popup-container .cube-dialog-main
-    width 500px
 </style>
