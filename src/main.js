@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import 'lib-flexible'
 import store from './store'
+import './mock/mockServer' // 加载mockServer即可
 import {
   Style,
   Dialog,

@@ -24,7 +24,6 @@ export const reqLogout = () => ajax(BASE_URL+'/logout')
  */
 export const reqShopInfo = () => ajax('/info')
 
-
 /**
  * 获取商家商品数组
  */

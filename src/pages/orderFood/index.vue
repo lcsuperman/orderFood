@@ -8,26 +8,26 @@
             <!--左侧分类-->
             <div class="classification">
                <ul class="classList">
-                 <li :class="{current: index===currentIndex}" v-for="(item , index ) in  goodsInfo" :key="index" @click="clickMenuItem(index)">{{item.type}}</li>
+                 <li :class="{current: index===currentIndex}" v-for="(good , index ) in  goods" :key="index" @click="clickMenuItem(index)">{{good.name}}</li>
                </ul>
             </div>
             <!--右侧商品-->
             <div class="foods">
                <div class="foods-container">
-                 <div class="foos-content" v-for="(item , index) in goodsInfo">
+                 <div class="foos-content" v-for="(good , index) in goods">
                    <div class="foods-class">
-                     <span class="class-name">{{item.type}}</span>
+                     <span class="class-name">{{good.name}}</span>
                    </div>
                    <ul class="foodsList">
-                      <li class="foodsInfo" v-for="(good , index) in item.goods">
+                      <li class="foodsInfo" v-for="(food , index) in good.foods">
                         <div class="food-image">
-                          <img :src="good.image" alt="">
+                          <img :src="food.icon" alt="">
                         </div>
                         <div class="food-info">
-                           <p class="food-name">{{good.name}}</p>
-                           <p class="food-num">月销售 <span>{{good.sale}}</span></p>
+                           <p class="food-name">{{food.name}}</p>
+                           <p class="food-num">月销售 <span>{{food.sellCount}}</span></p>
                            <div class="food-price">
-                             <div class="price">￥{{good.price}}</div>
+                             <div class="price">￥{{food.price}}</div>
                              <!--添加商品和减少商品-->
                              <AddGoods :goodsInfo="goodsInfo"></AddGoods>
                            </div>
@@ -86,6 +86,7 @@
   import Header from '../../components/header/index.vue'
   import AddGoods from './addGoods/index.vue'
   import BScroll from 'better-scroll'
+  import {mapState} from 'vuex'
   export default{
     data(){
        return{
@@ -292,6 +293,7 @@
       AddGoods
     },
     computed: {
+      ...mapState(['goods']),
 
       // 计算得到当前分类的下标
       currentIndex() {// 初始和相关数据发生了变化
@@ -308,8 +310,13 @@
     },
 
     mounted(){
-     this._initScroll()
-      this._initTops()
+      this.$store.dispatch('getShopGoods', () => {// 数据更新后执行
+        this.$nextTick(() => { // 列表数据更新显示后执行
+
+          this._initScroll()
+          this._initTops()
+        })
+      })
     },
     methods:{
       toggleShow(){
