@@ -2,9 +2,9 @@
   <!--添加商品和减少商品-->
    <div class="addGood">
     <transition name="move">
-      <i class="iconfont icon-jianqu" v-show="purchaseNum != 0 "  @click.stop="updateFoodCount(false)"></i>
+      <i class="iconfont icon-jianqu" v-if="food.count"  @click.stop="updateFoodCount(false)"></i>
     </transition>
-    <span class="addNum" v-show="purchaseNum != 0 ">{{purchaseNum}}</span>
+    <span class="addNum" v-if="food.count">{{food.count}}</span>
     <i class="iconfont icon-tianjia" @click="updateFoodCount(false)"></i>
   </div>
 </template>
@@ -12,20 +12,17 @@
   export default{
     data(){
        return{
-         purchaseNum:1,
+
        }
     },
-
-    computed: {
-
-
+    props: {
+      food: Object
     },
 
-    mounted(){
-
-    },
     methods:{
-
+      updateFoodCount (isAdd) {
+        this.$store.dispatch('updateFoodCount', {isAdd, food: this.food})
+      }
     }
   }
 </script>

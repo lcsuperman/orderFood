@@ -77,7 +77,7 @@ export default {
     }
   },
 
-  // 同步更新food中的count值
+  // 同步更新food中的count值[有用]
   updateFoodCount({commit}, {isAdd, food}) {
     if (isAdd) {
       commit(INCREMENT_FOOD_COUNT, {food})

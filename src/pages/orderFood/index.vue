@@ -19,7 +19,7 @@
                      <span class="class-name">{{good.name}}</span>
                    </div>
                    <ul class="foodsList">
-                      <li class="foodsInfo" v-for="(food , index) in good.foods">
+                      <li class="foodsInfo" v-for="(food , index) in good.foods" :key="index" @click="showFood(food)">
                         <div class="food-image">
                           <img :src="food.icon" alt="">
                         </div>
@@ -29,7 +29,7 @@
                            <div class="food-price">
                              <div class="price">￥{{food.price}}</div>
                              <!--添加商品和减少商品-->
-                             <AddGoods :goodsInfo="goodsInfo"></AddGoods>
+                             <AddGoods :food="food"></AddGoods>
                            </div>
                         </div>
                       </li>
@@ -65,19 +65,19 @@
        <!--底部购物车-->
        <div class="goodCar">
           <div class="car">
-            <div class="car-container" @click="showPopup">
-              <div class="car-content" :style="{background: num != 0 ? '#00a0dc': '#333'}">
-                <i class="iconfont icon-gouwuche" :style="{color: num != 0 ? '#fff': '#999'}"></i>
-                <div class="num" v-show="num != 0">{{num}}</div>
+            <div class="car-container" @click="toggleShow">
+              <div class="car-content" :style="{background: totalCount != 0 ? '#00a0dc': '#333'}">
+                <i class="iconfont icon-gouwuche" :style="{color: totalCount != 0 ? '#fff': '#999'}"></i>
+                <div class="num" v-if="totalCount">{{totalCount}}</div>
               </div>
               </div>
             <div class="express">
-              <span class="priceAll" :style="{color:num != 0 ? '#fff': '#999'}">￥{{price}}</span>
+              <span class="priceAll" :style="{color:totalCount != 0 ? '#fff': '#999'}">￥{{totalPrice}}</span>
               <div class="line"></div>
               <span class="free">免配送费</span>
             </div>
           </div>
-          <div :class="num != 0 ? 'pay' : 'submit'" >去结算</div>
+          <div :class="totalCount != 0 ? 'pay' : 'submit'" >去结算</div>
        </div>
 
      </div>
@@ -86,206 +86,15 @@
   import Header from '../../components/header/index.vue'
   import AddGoods from './addGoods/index.vue'
   import BScroll from 'better-scroll'
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
   export default{
     data(){
        return{
          scrollY: 0, // 右侧滑动的Y轴坐标 (滑动过程时实时变化)
          tops: [], // 所有右侧分类li的top组成的数组  (列表第一次显示后就不再变化)
+         food:{},//需要显示的food
          listShow:false,
-         num:6,
          price:213,
-         goodsInfo:[
-             {
-                 type:'热销榜',
-                 goods:[
-                   {
-                       name:'想你奶茶',
-                       sale:'200',
-                       price:'10',
-                       image:'./static/image/food1.jpg',
-                   },
-                   {
-                     name:'冰镇奶茶',
-                     sale:'100',
-                     price:'8',
-                     image:'./static/image/food2.jpg',
-                   },
-                   {
-                     name:'遇见奶茶',
-                     sale:'220',
-                     price:'6',
-                     image:'./static/image/food3.jpg',
-                   },
-                   {
-                     name:'想你奶茶',
-                     sale:'240',
-                     price:'9',
-                     image:'./static/image/food1.jpg',
-                   },
-                 ]
-             },
-             {
-               type:'特价奶茶',
-               goods:[
-                 {
-                   name:'爱你奶茶',
-                   sale:'280',
-                   price:'10',
-                   image:'./static/image/food3.jpg',
-                 },
-                 {
-                   name:'珍珠奶茶',
-                   sale:'300',
-                   price:'10',
-                   image:'./static/image/food2.jpg',
-                 },
-                 {
-                   name:'可口奶茶',
-                   sale:'200',
-                   price:'10',
-                   image:'./static/image/food1.jpg',
-                 },
-                 {
-                   name:'想你奶茶',
-                   sale:'200',
-                   price:'10',
-                   image:'./static/image/food2.jpg',
-                 },
-               ]
-             },
-             {
-               type:'新品上架',
-               goods:[
-                 {
-                   name:'爱你奶茶',
-                   sale:'280',
-                   price:'10',
-                   image:'./static/image/food3.jpg',
-                 },
-                 {
-                   name:'珍珠奶茶',
-                   sale:'300',
-                   price:'10',
-                   image:'./static/image/food2.jpg',
-                 },
-                 {
-                   name:'可口奶茶',
-                   sale:'200',
-                   price:'10',
-                   image:'./static/image/food1.jpg',
-                 },
-                 {
-                   name:'想你奶茶',
-                   sale:'200',
-                   price:'10',
-                   image:'./static/image/food2.jpg',
-                 },
-               ]
-             },
-             {
-               type:'夏季凉饮',
-               goods:[
-                 {
-                   name:'爱你奶茶',
-                   sale:'280',
-                   price:'10',
-                   image:'./static/image/food3.jpg',
-                 },
-                 {
-                   name:'珍珠奶茶',
-                   sale:'300',
-                   price:'10',
-                   image:'./static/image/food2.jpg',
-                 },
-                 {
-                   name:'可口奶茶',
-                   sale:'200',
-                   price:'10',
-                   image:'./static/image/food1.jpg',
-                 },
-                 {
-                   name:'想你奶茶',
-                   sale:'200',
-                   price:'10',
-                   image:'./static/image/food2.jpg',
-                 },
-               ]
-             },
-             {
-               type:'店家推荐',
-               goods:[
-                 {
-                   name:'爱你奶茶',
-                   sale:'280',
-                   price:'10',
-                   image:'./static/image/food3.jpg',
-                 },
-                 {
-                   name:'珍珠奶茶',
-                   sale:'300',
-                   price:'10',
-                   image:'./static/image/food2.jpg',
-                 },
-                 {
-                   name:'可口奶茶',
-                   sale:'200',
-                   price:'10',
-                   image:'./static/image/food1.jpg',
-                 },
-                 {
-                   name:'想你奶茶',
-                   sale:'200',
-                   price:'10',
-                   image:'./static/image/food2.jpg',
-                 },
-               ]
-             },
-             {
-               type:'暖心奶茶',
-               goods:[
-                 {
-                   name:'爱你奶茶',
-                   sale:'280',
-                   price:'10',
-                   image:'./static/image/food3.jpg',
-                 },
-                 {
-                   name:'可口奶茶',
-                   sale:'200',
-                   price:'10',
-                   image:'./static/image/food1.jpg',
-                 },
-               ]
-             },
-           ],
-         cartFoods:[
-           {
-             name:'海之言',
-             price:'4'
-           },
-           {
-             name:'海之言',
-             price:'4'
-           },
-           {
-             name:'海之言',
-             price:'4'
-           },
-
-           {
-             name:'海之言',
-             price:'4'
-           },
-           {
-             name:'海之言',
-             price:'4'
-           },
-           {
-             name:'海之言',
-             price:'4'
-           },
-         ]
        }
     },
     components:{
@@ -294,6 +103,8 @@
     },
     computed: {
       ...mapState(['goods']),
+      ...mapState(['cartFoods', 'info']),
+      ...mapGetters(['totalCount', 'totalPrice']),
 
       // 计算得到当前分类的下标
       currentIndex() {// 初始和相关数据发生了变化
@@ -319,8 +130,18 @@
       })
     },
     methods:{
+      // 显示点击的food
+      showFood (food) {
+        // 设置food
+        this.food = food
+        // 显示food组件 (在父组件中调用子组件对象的方法)
+      /*  this.$refs.food.toggleShow()*/
+      },
       toggleShow(){
-
+        // 只有当总数量大于0时切换
+        if(this.totalCount >0) {
+          this.listShow = !this.listShow
+        }
       },
       // 初始化滚动
       _initScroll() {
