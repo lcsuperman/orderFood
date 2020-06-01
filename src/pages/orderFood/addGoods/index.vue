@@ -5,7 +5,7 @@
       <i class="iconfont icon-jianqu" v-if="food.count"  @click.stop="updateFoodCount(false)"></i>
     </transition>
     <span class="addNum" v-if="food.count">{{food.count}}</span>
-    <i class="iconfont icon-tianjia" @click="updateFoodCount(false)"></i>
+    <i class="iconfont icon-tianjia" @click="updateFoodCount(true)"></i>
   </div>
 </template>
 <script>
@@ -21,7 +21,7 @@
 
     methods:{
       updateFoodCount (isAdd) {
-        this.$store.dispatch('updateFoodCount', {isAdd, food: this.food})
+         this.$store.dispatch('updateFoodCount', {isAdd, food: this.food})
       }
     }
   }

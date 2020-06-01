@@ -19,7 +19,7 @@
                      <span class="class-name">{{good.name}}</span>
                    </div>
                    <ul class="foodsList">
-                      <li class="foodsInfo" v-for="(food , index) in good.foods" :key="index" @click="showFood(food)">
+                      <li class="foodsInfo" v-for="(food , index) in good.foods" :key="index">
                         <div class="food-image">
                           <img :src="food.icon" alt="">
                         </div>
@@ -38,53 +38,15 @@
                </div>
              </div>
           </div>
-         <!--购物车列表-->
-         <transition name="move">
-           <div class="shopcart-list" v-show="listShow">
-             <div class="list-header">
-               <h1 class="title">购物车</h1>
-               <span class="empty" @click="clearCart">清空</span>
-             </div>
-             <div class="list-content">
-               <ul class="foodlist">
-                 <li class="food" v-for="(food, index) in cartFoods" :key="index">
-                   <span class="name">{{food.name}}</span>
-                   <div class="price"><span>￥{{food.price}}</span></div>
-                   <div class="cartcontrol-wrapper">
-                     <AddGoods />
-                   </div>
-                 </li>
-               </ul>
-             </div>
-           </div>
-         </transition>
-
+         <!--购物车-->
+         <ShopCart></ShopCart>
        </div>
-       <!--蒙版-->
-       <div class="list-mask" v-show="listShow" @click="toggleShow"></div>
-       <!--底部购物车-->
-       <div class="goodCar">
-          <div class="car">
-            <div class="car-container" @click="toggleShow">
-              <div class="car-content" :style="{background: totalCount != 0 ? '#00a0dc': '#333'}">
-                <i class="iconfont icon-gouwuche" :style="{color: totalCount != 0 ? '#fff': '#999'}"></i>
-                <div class="num" v-if="totalCount">{{totalCount}}</div>
-              </div>
-              </div>
-            <div class="express">
-              <span class="priceAll" :style="{color:totalCount != 0 ? '#fff': '#999'}">￥{{totalPrice}}</span>
-              <div class="line"></div>
-              <span class="free">免配送费</span>
-            </div>
-          </div>
-          <div :class="totalCount != 0 ? 'pay' : 'submit'" >去结算</div>
-       </div>
-
      </div>
 </template>
 <script>
   import Header from '../../components/header/index.vue'
   import AddGoods from './addGoods/index.vue'
+  import ShopCart from './shopCart/index.vue'
   import BScroll from 'better-scroll'
   import {mapState, mapGetters} from 'vuex'
   export default{
@@ -92,19 +54,16 @@
        return{
          scrollY: 0, // 右侧滑动的Y轴坐标 (滑动过程时实时变化)
          tops: [], // 所有右侧分类li的top组成的数组  (列表第一次显示后就不再变化)
-         food:{},//需要显示的food
          listShow:false,
-         price:213,
        }
     },
     components:{
       Header,
-      AddGoods
+      AddGoods,
+      ShopCart
     },
     computed: {
       ...mapState(['goods']),
-      ...mapState(['cartFoods', 'info']),
-      ...mapGetters(['totalCount', 'totalPrice']),
 
       // 计算得到当前分类的下标
       currentIndex() {// 初始和相关数据发生了变化
@@ -130,19 +89,7 @@
       })
     },
     methods:{
-      // 显示点击的food
-      showFood (food) {
-        // 设置food
-        this.food = food
-        // 显示food组件 (在父组件中调用子组件对象的方法)
-      /*  this.$refs.food.toggleShow()*/
-      },
-      toggleShow(){
-        // 只有当总数量大于0时切换
-        if(this.totalCount >0) {
-          this.listShow = !this.listShow
-        }
-      },
+
       // 初始化滚动
       _initScroll() {
         this.foodsScroll = new BScroll('.foods', {
@@ -190,39 +137,7 @@
         // 平滑滑动右侧列表
         this.foodsScroll.scrollTo(0, -scrollY, 300)
       },
-      showPopup(){
-        this.listShow = !this.listShow
-      },
-      clearCart() {//清空购物车
-        this.$createDialog({
-          type: 'confirm',
-          content: '清空购物车？',
-          confirmBtn: {
-            text: '确定',
-            active: true,
-            disabled: false,
-            href: 'javascript:;'
-          },
-          cancelBtn: {
-            text: '取消',
-            active: false,
-            disabled: false,
-            href: 'javascript:;'
-          },
-          onConfirm: () => {
-            this.showPopup()
-            this.num = 0
-            this.price = 0
-          },
-          onCancel: () => {
-            this.$createToast({
-              type: 'warn',
-              time: 1000,
-              txt: '已取消'
-            }).show()
-          }
-        }).show()
-      }
+
     }
   }
 </script>
@@ -276,7 +191,6 @@
                     margin-left 20px
 
                .foodsList
-
                   li
                     display flex
                     padding 20px 40px
@@ -326,7 +240,6 @@
         .shopcart-list
           position absolute
           left 0
-          bottom -220px
           z-index 10
           width 100%
           background-color #fff
@@ -351,31 +264,25 @@
               color rgb(0, 160, 220)
           .list-content
             padding 0 40px
-            max-height 350px
+            max-height 400px
             background #fff
             overflow hidden
             .foodlist
+              padding-bottom 450px
               .food
-                position relative
-                padding 20px 0
-                box-sizing border-box
-                bottom-border-1px(rgba(7, 17, 27, 0.1))
+                height 80px
+                display flex
+                align-items center
+                justify-content space-between
                 .name
-                  line-height 28px
                   font-size 28px
-                  color rgb(7, 17, 27)
                 .price
-                  position absolute
-                  right 150px
-                  bottom 16px
-                  line-height 28px
-                  font-size 28px
-                  font-weight 700
-                  color rgb(240, 20, 20)
-                .cartcontrol-wrapper
-                  position absolute
-                  right 0
-                  bottom 6px
+                  display flex
+                  align-items center
+                  .food-price
+                    font-size 28px
+                    margin-right 30px
+
 
 
 
@@ -394,7 +301,7 @@
       &.fade-enter, &.fade-leave-to
         opacity 0
         background rgba(7, 17, 27, 0)
-  .goodCar
+     .goodCar
        display flex
        height 90px
        width 100%
