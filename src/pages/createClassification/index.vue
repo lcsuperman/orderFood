@@ -23,75 +23,48 @@
 <script>
   import HeaderTitle from '../../components/headerTitle'
   import BScroll from 'better-scroll'
+  import {reqShopGoods} from '../../api/index'
   export default{
       data(){
         return{
-          swipeData: [
-            {
-            item: {
-              text: '店长推荐',
-              value: 1
-            },
-            btns: [
-              {
-                action: 'delete',
-                text: '删 除',
-                color: '#ff3a32'
-              }
-            ]
-          },
-            {
-            item: {
-              text: '特色饮品',
-              value: 2
-            },
-            btns: [
-              {
-                action: 'delete',
-                text: '删 除',
-                color: '#ff3a32'
-              }
-            ]
-          },
-            {
-            item: {
-              text: '暖心奶茶',
-              value: 3
-            },
-            btns: [
-              {
-                action: 'delete',
-                text: '删 除',
-                color: '#ff3a32'
-              }
-            ]
-          },
-            {
-              item: {
-                text: '店长推荐',
-                value: 4
-              },
-              btns: [
-                {
-                  action: 'delete',
-                  text: '删除',
-                  color: '#ff3a32'
-                }
-              ]
-            },
-          ]
+          swipeData: []// 分类列表
         }
 
       },
       components:{
         HeaderTitle
       },
-    mounted(){
-      new BScroll('.classification-wrap', {
+       computed:{
+
+     },
+      mounted(){
+        this.getClassification()
+         new BScroll('.classification-wrap', {
         click: true
       })
+
     },
-     methods:{
+      methods:{
+        //获取已有分类
+        async getClassification(){
+            const response = await reqShopGoods()
+            var result = response.data
+            result.forEach((e,index)=>{
+               var obj ={}
+               obj.btns = [
+                 {
+                   action: 'delete',
+                   text: '删 除',
+                   color: '#ff3a32'
+                 }
+               ]
+               var obiItem = {}
+               obiItem.text = e.name
+               obiItem.value = index + 1
+               obj.item = obiItem
+              this.swipeData.push(obj)
+           })
+        },
        onItemClick(item) {
          console.log('click item:', item)
        },
@@ -119,11 +92,21 @@
              placeholder: '请输入'
            },
            onConfirm: (e, promptValue) => {
-             this.$createToast({
-               type: 'warn',
-               time: 1000,
-               txt: `新分类名称: ${promptValue || ''}`
-             }).show()
+               var length = this.swipeData.length
+               var obj = {
+                  item:{
+                     text: promptValue,
+                     value:length + 1
+                  } ,
+                  btns: [
+                   {
+                     action: 'delete',
+                     text: '删 除',
+                     color: '#ff3a32'
+                   }
+                 ]
+               }
+             this.swipeData.push(obj)
            }
          }).show()
        },
@@ -137,6 +120,8 @@
      .classification-wrap
        height 100%
        overflow hidden
+       .swipe-wrapper
+         padding-bottom 180px
 
 
 </style>

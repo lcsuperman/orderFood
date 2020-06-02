@@ -53,8 +53,8 @@
 
             </div>
             <div class="btn" >
-              <cube-button class="btns" :inline="true">确定发货</cube-button>
-              <cube-button class="btns cancel" :inline="true" :outline="true">取消订单</cube-button>
+              <cube-button class="btns" :inline="true" @click="delivery(index)">确定发货</cube-button>
+              <cube-button class="btns cancel" :inline="true" :outline="true" @click="cancel(index)">取消订单</cube-button>
             </div>
           </div>
         </div>
@@ -309,6 +309,32 @@
 
     },
     methods: {
+      delivery(index){
+        console.log(index)
+        this.$createActionSheet({
+          title: '请确认订单是否发货？',
+          active: 0,
+          data: [
+            {content: '确认发货'}
+          ],
+          onSelect: () => {
+            this.orderInfoW.splice(index, 1)
+          }
+        }).show()
+      },
+      cancel(index){
+          console.log(index)
+        this.$createActionSheet({
+          title: '请确认是否取消订单？',
+          active: 0,
+          data: [
+            {content: '取消订单'}
+          ],
+          onSelect: () => {
+            this.orderInfoW.splice(index, 1)
+          }
+        }).show()
+      },
       clickHandler (label) {
           this.orderType = label
       }
