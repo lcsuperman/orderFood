@@ -29,8 +29,9 @@
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   .addGood
     display flex
+    align-items center
     .addNum
-      line-height 40px
+      font-size 30px
     .icon-jianqu
       color #00a0dc
       &.move-enter-active, &.move-leave-active
@@ -40,7 +41,7 @@
         transform translateX(15px) rotate(180deg)
     .iconfont
       display block
-      font-size 40px
+      font-size 50px
       color #00a0dc
       padding 0 10px
 

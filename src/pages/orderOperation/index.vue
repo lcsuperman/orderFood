@@ -18,9 +18,7 @@
           <div class="order-container">
             <div class="orderCode">
               <span class="code">取餐号：<span>{{order.orderCode}}</span></span>
-              <span class="statu" v-if="order.orderStatus == '未完成'"> {{order.orderStatus}}</span>
-              <span class="status" v-else-if="order.orderStatus == '已完成'"> {{order.orderStatus}}</span>
-              <span class="stat" v-else> {{order.orderStatus}}</span>
+              <span class="statu"> {{order.orderStatus}}</span>
             </div>
             <ul class="goods-list">
               <li   v-for="(good, index) in order.goods"  :key="index">
@@ -67,9 +65,7 @@
           <div class="order-container">
             <div class="orderCode">
               <span class="code">取餐号：<span>{{order.orderCode}}</span></span>
-              <span class="statu" v-if="order.orderStatus == '未完成'"> {{order.orderStatus}}</span>
-              <span class="status" v-else-if="order.orderStatus == '已完成'"> {{order.orderStatus}}</span>
-              <span class="stat" v-else> {{order.orderStatus}}</span>
+              <span class="status"> {{order.orderStatus}}</span>
             </div>
             <ul class="goods-list">
               <li   v-for="(good, index) in order.goods"  :key="index">
@@ -112,9 +108,7 @@
           <div class="order-container">
             <div class="orderCode">
               <span class="code">取餐号：<span>{{order.orderCode}}</span></span>
-              <span class="statu" v-if="order.orderStatus == '未完成'"> {{order.orderStatus}}</span>
-              <span class="status" v-else-if="order.orderStatus == '已完成'"> {{order.orderStatus}}</span>
-              <span class="stat" v-else> {{order.orderStatus}}</span>
+              <span class="stat"> {{order.orderStatus}}</span>
             </div>
             <ul class="goods-list">
               <li   v-for="(good, index) in order.goods"  :key="index">
@@ -369,13 +363,13 @@
                 font-size 30px
                 font-weight 700
               .status
-                font-size 20px
+                font-size 25px
                 color #00a0dc
               .statu
-                font-size 20px
+                font-size 25px
                 color #f01414
               .stat
-                font-size 20px
+                font-size 25px
                 color gray
             .goods-list
               border-bottom  2px solid #f3f5f7

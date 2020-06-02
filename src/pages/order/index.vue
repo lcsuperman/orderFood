@@ -210,10 +210,10 @@
                font-size 30px
                font-weight 700
              .status
-               font-size 20px
+               font-size 25px
                color #00a0dc
               .statu
-               font-size 20px
+               font-size 25px
                color #f01414
            .goods-list
              border-bottom  2px solid #f3f5f7

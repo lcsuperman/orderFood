@@ -5,7 +5,7 @@
         <i class="iconfont icon-arrowLeft"></i>
       </router-link>
     </HeaderTitle>
-    <cube-button :light="true" @click="showPrompt">添加新分类</cube-button>
+    <cube-button  @click="showPrompt">添加新分类</cube-button>
     <div class="classification-wrap">
       <div class="swipe-wrapper">
         <cube-scroll>
